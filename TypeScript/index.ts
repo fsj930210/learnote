@@ -10,3 +10,29 @@ type MapType<T> = {
 }
 
 type MapTypeResult = MapType<{ a: 1, b: 2 }>;
+
+
+// ParseQueryString
+// ParseQueryString<'a=1&b=2&c=3&a=4'> -> {a: [1, 4], b: 2, c: 3}
+type ParseQueryString<Str extends string> = Str extends `${infer Param}&${infer Rest}`
+  ? MergeParam<ParseParam<Param>, ParseQueryString<Rest>>
+  : ParseParam<Str>;
+type ParseParam<Param extends string> = Param extends `${infer Key}=${ infer Value}` ? {[K in Key]: Value} : {};
+type MergeParam<Param1 extends Record<string, any>, RestParam extends Record<string, any>> = {
+  [Key in keyof Param1 | keyof RestParam]: 
+  Key extends keyof Param1 
+  ? Key extends keyof RestParam 
+    ? MergeValue<Param1[Key], RestParam[Key]>
+    : Param1[Key]
+  : Key extends keyof RestParam
+    ? RestParam[Key]
+    : never
+}
+
+type MergeValue<Value1, RestValue> = Value1 extends RestValue 
+? Value1
+: RestValue extends unknown[]
+? [Value1, ...RestValue]
+  :[Value1, RestValue];
+
+type ParseQueryStringResult = ParseQueryString<'a=1&b=2&c=3&a=4'> 
