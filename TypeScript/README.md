@@ -102,3 +102,69 @@ type res = MapType<{a: 1, b: 2}>;
     const func = (a: string, b: number, c: boolean) => {};
     const CurryFuncResult = currying(func);
 ```
+
+### 逆变、协变、双向协变、不变
+
+ 1. 协变
+ 协变就是子类型可以赋值给父类型，子类型就是更具体的类型，函数的返回值是协变的
+ ```typescript
+    interface Person {
+        name: string;
+        age: number;
+    } 
+
+    interface Guang {
+        name: string;
+        age: number;
+        hobbies: string[]
+    }
+    let person: Person = {
+        name: '',
+        age: 20
+    };
+    let a: Guang = {
+        name: 'guang',
+        age: 20,
+        hobbies: ['play game', 'writing']
+    };
+
+    person = a;
+ ```
+  2. 逆变
+
+**逆变是父类型可以赋值给子类型
+函数的参数是逆变的，因为子类型更具体，所以函数体可能只会用到子类型特有的属性或者方法。参数是父类型的函数，其函数体只会用到父类型的属性或者方法；所以参数是父类型的函数可以赋值给参数是子类型的函数。
+这样才能保证类型安全**
+
+  ```typescript
+    interface Person222 {
+        name: string;
+        age: number;
+    }
+
+    interface AAAA {
+        name: string;
+        age: number;
+        hobbies: string[]
+    }
+
+    let printHobbies: (aaaa: AAAA) => void;
+
+    printHobbies = (aaaa) => {
+        console.log(aaaa.hobbies);
+    }
+
+    let printName: (person: Person222) => void;
+
+    printName = (person) => {
+        console.log(person.name);
+    }
+
+    printHobbies = printName;
+
+    printName = printHobbies;
+```
+3. 双向协变
+开启`strictFunctionTypes` 的编译选项后函数参数就是双向逆变的
+4. 不变
+非父子类型的类型就是不变的

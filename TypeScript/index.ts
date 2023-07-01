@@ -58,3 +58,55 @@ declare function currying<Func>(
 ): Func extends (...args: infer Params) => infer Res ? CurryFunc<Params, Res> : never;
 const func = (a: string, b: number, c: boolean) => 3;
 const CurryFuncResult = currying(func);
+
+interface Person111 {
+	name: string;
+	age: number;
+}
+
+// 协变
+interface Guang {
+	name: string;
+	age: number;
+	hobbies: string[]
+}
+let person: Person111 = {
+	name: '',
+	age: 20
+};
+let a1: Guang = {
+	name: 'guang',
+	age: 20,
+	hobbies: ['play game', 'writing']
+};
+
+person = a1;
+
+// 逆变
+interface Person222 {
+	name: string;
+	age: number;
+}
+
+interface AAAA {
+	name: string;
+	age: number;
+	hobbies: string[]
+}
+
+let printHobbies: (aaaa: AAAA) => void;
+
+printHobbies = (aaaa) => {
+	console.log(aaaa.hobbies);
+}
+
+let printName: (person: Person222) => void;
+
+printName = (person) => {
+	console.log(person.name);
+}
+
+printHobbies = printName;
+
+// printName = printHobbies;
+
