@@ -170,3 +170,21 @@ type ResAny = TestAny1<any>; // 1|2
 type TestNever1<T> = T extends true ? 1 : 2;
 
 type ResNever = TestNever1<never>; // never
+
+// satisfies
+type Obj = {
+	a: number;
+	b: string;
+	c: Function;
+	[key: string]: any;
+}
+const obj123 = {
+	a: 1,
+	b: 'b',
+	c: () => {
+		console.log('c')
+	},
+	d: 5
+} satisfies Obj
+obj123.d
+// obj123.dd = '44'

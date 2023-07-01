@@ -210,3 +210,159 @@ type Defaultize<A, B> = Pick<A, Exclude<keyof A, keyof B>> &
 	Partial<Pick<B, Exclude<keyof B, keyof A>>>;
 
 type DefaultizeResult = Copy<Defaultize<AA, BB>>;
+
+// 1. 实现一个 zip 函数，对两个数组的元素按顺序两两合并，比如输入 [1,2,3], [4,5,6] 时，返回 [[1,4], [2,5],[3,6]]
+// 2. 给这个 zip 函数定义 ts 类型（两种写法）
+// 3. 用类型编程实现精确的类型提示，比如参数传入 [1,2,3], [4,5,6]，那返回值的类型要提示出 [[1,4], [2,5],[3,6]]
+
+/*     需求1   */
+// function zip(arr1, arr2) {
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+// const zipRes = zip([1,2,3], [4,5,6])
+
+/*     需求2   */
+// function zip(arr1: unknown[], arr2: unknown[]): unknown[] {
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+// interface Zip {
+// 	(a: unknown[], b: unknown[]): unknown[]
+// }
+
+/*     需求3   */
+type ZipFunc<Arr1 extends unknown[], Arr2 extends unknown[]> = Arr1 extends [infer Arr1First, ...infer Arr1Rest]
+? Arr2 extends [infer Arr2First, ...infer Arr2Rest]
+	? [[Arr1First, Arr2First], ...ZipFunc<Arr1Rest, Arr2Rest>]
+	:[]
+:[];
+// 第一步 因为声明函数的时候都不知道参数是啥，自然计算不出 Zip<Target, Source> 的值，所以这里会
+// function zip<Arr1 extends unknown[], Arr2 extends unknown[]>(arr1: unknown[], arr2: unknown[]): ZipFunc<Arr1, Arr2>{
+// 	if (!arr1.length || !arr2.length) return [];
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+//  const zipRes = zip([1, 2, 3], [4, 5, 6])
+
+// 第二步 解决第一步问题用函数重载 返回值的类型不对呢返回的是[]不是字面量量类型
+// function zip<Arr1 extends unknown[], Arr2 extends unknown[]>(arr1: Arr1, arr2: Arr2): ZipFunc<Arr1, Arr2>
+// function zip(arr1:unknown[], arr2: unknown[]):unknown[]
+// function zip(arr1: unknown[], arr2: unknown[]) {
+// 	if (!arr1.length || !arr2.length) return [];
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+//  const zipRes = zip([1, 2, 3], [4, 5, 6])
+
+// 第三步 解决第二步使用as const 参数约束为readonly 但是会报错类型不匹配 类型“Arr1、Arr2”不满足约束“unknown[]”。类型 "readonly unknown[]" 为 "readonly"
+// function zip<Arr1 extends readonly unknown[], Arr2 extends readonly unknown[]>(arr1: Arr1, arr2: Arr2): ZipFunc<Arr1, Arr2>
+// function zip(arr1:unknown[], arr2: unknown[]):unknown[]
+// function zip(arr1: unknown[], arr2: unknown[]) {
+// 	if (!arr1.length || !arr2.length) return [];
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+//  const zipRes = zip([1, 2, 3] as const , [4, 5, 6] as const)
+
+// 第四步 解决第三步问题则是返回值去掉readonly修饰符 需要自己实现一个去掉readonly的类型 但是如果不传入字面量类型返回的还是[]
+// type Mutable<T> = {
+// 	-readonly[Key in keyof T]: T[Key]
+// }
+// function zip<Arr1 extends readonly unknown[], Arr2 extends readonly unknown[]>(arr1: Arr1, arr2: Arr2): ZipFunc<Mutable<Arr1>, Mutable<Arr2>>
+// function zip(arr1:unknown[], arr2: unknown[]):unknown[]
+// function zip(arr1: unknown[], arr2: unknown[]) {
+// 	if (!arr1.length || !arr2.length) return [];
+// 	const [arr1First, ...restArr1] = arr1;
+// 	const [arr2First, ...restArr2] = arr2;
+// 	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+// }
+// const zipRes1 = zip([1, 2, 3] as const , [4, 5, 6] as const)
+// const zipArr1 = [1, 2, 3];
+// const zipArr2 = [4, 5, 6];
+// const zipRes2 = zip(zipArr1, zipArr2)
+
+// 第五步 解决第四步问题 则是交换函数重载顺序
+
+type Mutable<T> = {
+	-readonly [Key in keyof T]: T[Key]
+}
+function zip(arr1: unknown[], arr2: unknown[]): unknown[]
+function zip<Arr1 extends readonly unknown[], Arr2 extends readonly unknown[]>(arr1: Arr1, arr2: Arr2): ZipFunc<Mutable<Arr1>, Mutable<Arr2>>
+function zip(arr1: unknown[], arr2: unknown[]) {
+	if (!arr1.length || !arr2.length) return [];
+	const [arr1First, ...restArr1] = arr1;
+	const [arr2First, ...restArr2] = arr2;
+	return [[arr1First, arr2First, ...zip(restArr1, restArr2)]]
+}
+const zipRes1 = zip([1, 2, 3] as const, [4, 5, 6] as const)
+const zipArr1 = [1, 2, 3];
+const zipArr2 = [4, 5, 6];
+const zipRes2 = zip(zipArr1, zipArr2)
+
+// DeepRecord
+
+type DeepRecord<Obj extends Record<string, any>> = {
+	[Key in keyof Obj]:
+	Obj[Key] extends Record<string, any>
+	? DeepRecord<Obj[Key]> & Record<string, any>
+	: Obj[Key]
+} & Record<string, any>;
+type Data = {
+	aaa: number;
+	bbb: {
+		ccc: number;
+		ddd: string;
+	},
+	eee: {
+		fff: string;
+		ddd: number;
+	}
+}
+type DeepRecordResult = DeepRecord<Data>;
+
+const data: Data = {
+	aaa: 1,
+	bbb: {
+		ccc: 1,
+		ddd: 'aaa'
+	},
+	eee: {
+		fff: 'bbb',
+		ddd: 2
+	}
+}
+
+// GenerateType
+type GenerateType<Keys extends keyof any> = {
+	[Key in Keys]: {
+		[Key2 in Key]: 'desc' | 'asc'
+	} & {
+		[Key3 in Exclude<Keys, Key>]: false
+	}
+}[Keys];
+
+type GenerateTypeResult = GenerateType<'aaa' | 'bbb' | 'ccc'>;
+
+const gtr1: GenerateTypeResult = {
+	aaa: 'asc',
+	bbb: false,
+	ccc: false
+}
+
+const gtr2: GenerateTypeResult = {
+	aaa: false,
+	bbb: 'desc',
+	ccc: false
+}
+
+// const gtr3: GenerateTypeResult = {
+// 	aaa: 'asc',
+// 	bbb: 'desc',
+// 	ccc: false
+// }

@@ -285,3 +285,25 @@ import xxxx
 
 原理是编译时会生成 `tsconfig.tsbuildinfo` 的文件，记录着编译的文件和它们的 `hash`，当再次编译的时候，如果文件 `hash` 没变，那就直接跳过，从而提升了编译速度
 
+### satisfies
+
+`satisfies`可以给扩展的类型增加提示，但是不能动态扩展
+
+```typescript
+    type Obj = {
+        a: number;
+        b: string;
+        c: Function;
+        [key: string]: any;
+    }
+    const obj123 = {
+        a: 1,
+        b: 'b',
+        c: () => {
+            console.log('c')
+        },
+        d: 5
+    } satisfies Obj
+    obj123.d // 可以提示d
+    obj123.e = '44' // 报错不能动态扩展
+```
