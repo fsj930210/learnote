@@ -110,3 +110,63 @@ printHobbies = printName;
 
 // printName = printHobbies;
 
+
+
+// extends 约束
+// type BuildArrayTest<
+// 	Length extends number,
+// 	Ele = unknown,
+// 	Arr extends unknown[] = []
+// > = Length extends Arr['length']
+// 	? Arr
+// 	: BuildArrayTest<Length, Ele, [...Arr, Ele]>;
+
+// type AddTest<Num1 extends number, Num2 extends number> =
+// 	[...BuildArrayTest<Num1>, ...BuildArrayTest<Num2>]['length'];
+
+// type AddTestResult = Add<32, 25>;
+
+// type BuildArrayTest<
+// 	Length extends number,
+// 	Ele = unknown,
+// 	Arr extends unknown[] = []
+// > = Length extends Arr['length']
+// 	? Arr
+// 	: BuildArrayTest<Length, Ele, [...Arr, Ele]>;
+
+// type AddTest<Num1 extends 32, Num2 extends 25> =
+// 	[...BuildArrayTest<Num1>, ...BuildArrayTest<Num2>]['length'];
+
+// type AddTestResult = Add<32, 25>;
+
+type BuildArrayTest<
+	Length extends number,
+	Ele = unknown,
+	Arr extends unknown[] = []
+	> = Arr['length'] extends Length
+	? Arr
+	: BuildArrayTest<Length, Ele, [...Arr, Ele]>;
+
+type AddTest<Num1 extends number, Num2 extends number> =
+	[...BuildArrayTest<Num1>, ...BuildArrayTest<Num2>]['length'];
+
+type AddTestResult = Add<32, 25>;
+
+// 分布式注意事项
+// 联合类型在extends左边时触发分布式特性所以是1|2
+type TestNum<T> = T extends number ? 1 : 2;
+
+type ResNum = TestNum<1 | 'a'>; // 1|2
+// boolean类型其实是true|false所以也会触发分布式
+type TestBoolean<T> = T extends true ? 1 : 2;
+
+type ResBoolean = TestBoolean<boolean>; // 1|2
+
+// 条件类型中 any 的特殊处理，如果左边是 any，则会返回 trueType 和 falseType 的联合类型
+type TestAny1<T> = T extends true ? 1 : 2;
+
+type ResAny = TestAny1<any>; // 1|2
+//当条件类型左边是 never 的时候，就会直接返回 never。
+type TestNever1<T> = T extends true ? 1 : 2;
+
+type ResNever = TestNever1<never>; // never
