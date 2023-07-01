@@ -165,6 +165,6 @@ type res = MapType<{a: 1, b: 2}>;
     printName = printHobbies;
 ```
 3. 双向协变
-开启`strictFunctionTypes` 的编译选项后函数参数就是双向逆变的
+开启`strictFunctionTypes` 的编译选项后函数参数就是双向协变的
 4. 不变
 非父子类型的类型就是不变的
