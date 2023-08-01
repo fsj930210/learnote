@@ -9,7 +9,7 @@
                 v-for="(item, index) in localDevice.videoIn"
                 :key="index"
                 :label="item.label"
-                :value="item.id"
+                :value="item.deviceId"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -19,7 +19,7 @@
                 v-for="(item, index) in localDevice.audioIn"
                 :key="index"
                 :label="item.label"
-                :value="item.id"
+                :value="item.deviceId"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -29,7 +29,7 @@
                 v-for="(item, index) in localDevice.audioOut"
                 :key="index"
                 :label="item.label"
-                :value="item.id"
+                :value="item.deviceId"
               ></el-option>
             </el-select>
           </el-form-item>
