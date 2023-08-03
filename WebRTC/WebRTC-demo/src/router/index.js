@@ -18,6 +18,11 @@ const router = createRouter({
       path: '/demo02',
       name: 'demo02',
       component: () => import('@/views/demo02.vue')
+    },
+    {
+      path: '/demo03-one2one',
+      name: 'demo03-one2one',
+      component: () => import('@/views/demo03-one2one.vue')
     }
   ]
 })
