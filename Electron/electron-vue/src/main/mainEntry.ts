@@ -1,10 +1,18 @@
 import {app, BrowserWindow} from 'electron';
-import { CustomScheme } from "./CustomScheme";
+import { CustomScheme } from './CustomScheme';
+import { CommonWindowEvent } from './CommonWindowEvent';
+
+process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
+app.on('browser-window-created', (_e, win) => {
+  CommonWindowEvent.regWinEvent(win);
+});
 
 let mainWindow: BrowserWindow;
 
 app.whenReady().then(() => {
   const config: Electron.BrowserWindowConstructorOptions = {
+    frame: false,
+    show: false,
     webPreferences: {
       // 将nodejs集成到渲染进程
       nodeIntegration: true,
@@ -29,4 +37,5 @@ app.whenReady().then(() => {
     CustomScheme.registerScheme();
     mainWindow.loadURL(`app://index.html`);
   }
+  CommonWindowEvent.listen();
 })

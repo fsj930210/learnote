@@ -6,7 +6,12 @@
 </template>
 
 <script setup lang="ts">
+import { ipcRenderer } from 'electron';
+import {onMounted} from 'vue';
 import BarLeft from '@renderer/components/BarLeft/index.vue';
+onMounted(() => {
+  ipcRenderer.invoke('showWindow')
+})
 </script>
 <style scoped lang="scss">
 .pageBox {
