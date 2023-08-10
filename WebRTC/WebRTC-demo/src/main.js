@@ -1,11 +1,29 @@
-import './assets/main.css'
+import Vue from 'vue';
+import App from './App.vue';
+import router from './router';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import 'element-plus/dist/index.css'
-const app = createApp(App)
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.config.productionTip = false;
+Vue.use(ElementUI);
+const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+const host = window.location.host;
+const server = protocol + host;
+console.log('current server ', server);
+console.log(process.env);
 
-app.use(router)
+let serverSocketUrl = process.env.NODE_ENV === 'development' ? 'ws://127.0.0.1:3000' : server;
+Vue.prototype.$serverSocketUrl = serverSocketUrl;
+//SRS相关地址
+Vue.prototype.$srsServerAPIURL = 'http://192.168.3.123:1985/';
+Vue.prototype.$srsServerRTCURL = 'webrtc://192.168.3.123:8085/live/';
+Vue.prototype.$srsServerFlvURL = 'http://192.168.3.123:8085/live/';
 
-app.mount('#app')
+//Janus地址
+Vue.prototype.$janusServerUrl =
+	process.env.NODE_ENV === 'development' ? 'https://nrtc.xxxxx.cn/suke-janus/janus/' : '/suke-janus/janus/';
+
+new Vue({
+	router,
+	render: (h) => h(App),
+}).$mount('#app');
