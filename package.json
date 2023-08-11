@@ -1,0 +1,9 @@
+{
+  "name": "learnote",
+  "version": "0.0.1",
+  "description": "学习笔记",
+  "main": "index.js",
+  "keywords": [],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT"
+}
