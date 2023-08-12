@@ -13,15 +13,36 @@ import viteEslint from 'vite-plugin-eslint';
 
 import viteStylelint from 'vite-plugin-stylelint';
 
+// svg以组件形式导入
+// import svgr from 'vite-plugin-vue2-svg'; vue2引入这个插件
+// import svgr from 'vite-svg-loader'; vue3引入这个插件
+import svgr from 'vite-plugin-svgr'; // react引入这个插件;
+// 图片压缩
+import viteImagemin from 'vite-plugin-imagemin';
+// 雪碧图
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 // https://vitejs.dev/config/
 
 // 全局 scss 文件的路径
 // 用 normalizePath 解决 window 下的路径问题
 const variablePath = normalizePath(path.resolve('./src/styles/variable.scss'));
 
+// 是否为生产环境，在生产环境一般会注入 NODE_ENV 这个环境变量，见下面的环境变量文件配置
+// const isProduction = process.env.NODE_ENV === 'production';
+
+// 填入项目的 CDN 域名地址
+// const CDN_URL = 'http://www.abc.com';
+
 export default defineConfig({
+  // base: isProduction ? CDN_URL : '/',
   // 手动指定项目根目录位置
   // root: path.join(__dirname, 'src'),
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, 'src'),
+      '@assets': path.join(__dirname, 'src/assets')
+    }
+  },
   plugins: [
     react({
       babel: {
@@ -44,6 +65,32 @@ export default defineConfig({
     viteStylelint({
       // 对某些文件排除检查
       exclude: ['windicss', 'node_modules']
+    }),
+    svgr({ include: 'src/**/*.svg' }),
+    viteImagemin({
+      // 无损压缩配置，无损压缩下图片质量不会变差
+      optipng: {
+        optimizationLevel: 7
+      },
+      // 有损压缩配置，有损压缩下图片质量可能会变差
+      pngquant: {
+        quality: [0.8, 0.9]
+      },
+      // svg 优化
+      svgo: {
+        plugins: [
+          {
+            name: 'removeViewBox'
+          },
+          {
+            name: 'removeEmptyAttrs',
+            active: false
+          }
+        ]
+      }
+    }),
+    createSvgIconsPlugin({
+      iconDirs: [path.join(__dirname, 'src/assets/icons')]
     })
   ],
   css: {
@@ -66,5 +113,12 @@ export default defineConfig({
         additionalData: `@import "${variablePath}";`
       }
     }
+  },
+  // json: {
+  //   stringify: true
+  // },
+  assetsInclude: ['.mp4'],
+  build: {
+    assetsInlineLimit: 4 * 1024
   }
 });

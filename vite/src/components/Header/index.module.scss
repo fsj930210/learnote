@@ -2,4 +2,7 @@
   display: flex;
   color: $theme-color;
   text-decoration: dashed;
+  background-image: url('@assets/images/background.png');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
