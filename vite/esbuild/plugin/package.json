@@ -1,0 +1,19 @@
+{
+  "name": "plugin",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "fengshaojian123 <fsj930210@163.com>",
+  "license": "MIT",
+  "autorName": "fengshaojian",
+  "autorUrl": "https://www.github.com/fsj930210",
+  "dependencies": {
+    "esbuild": "^0.19.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

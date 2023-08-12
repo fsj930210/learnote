@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# npx husky add .husky/pre-commit "npx --no -- lint-staged"
+# npx husky add .husky/commit-msg "npx --no-install commitlint -e "
 # monorepo 需要在根目录安装husky 然后在指定目录执行上面命令，并在脚本里手动进入真正项目目录
-cd vite
-npx --no -- lint-staged
+cd vite/vite-demo
+npx --no-install commitlint -e 

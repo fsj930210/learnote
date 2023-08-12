@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/index.css"],
+  "sourcesContent": [".hello{\n  color: red;\n}"],
+  "mappings": ";AAAA,CAAC;AACC,SAAO;AACT;",
+  "names": []
+}
