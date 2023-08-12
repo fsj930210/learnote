@@ -21,6 +21,8 @@ import svgr from 'vite-plugin-svgr'; // react引入这个插件;
 import viteImagemin from 'vite-plugin-imagemin';
 // 雪碧图
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
+
+import { esbuildPatchPlugin } from './build/esbuildPatchPlugin';
 // https://vitejs.dev/config/
 
 // 全局 scss 文件的路径
@@ -120,5 +122,27 @@ export default defineConfig({
   assetsInclude: ['.mp4'],
   build: {
     assetsInlineLimit: 4 * 1024
+  },
+  // 预构建相关的配置
+  optimizeDeps: {
+    // 自定义预构建的入口文件
+    // entries: []
+    // 强制预构建 配置为一个字符串数组，将 `lodash-es` 和 `vue`两个包强制进行预构建
+    // 针对一些动态 import
+    include: [
+      'react-virtualized',
+      'lodash-es',
+      // 按需加载的依赖都可以声明到这个数组里
+      'object-assign',
+      // 间接依赖的声明语法，通过`>`分开, 如`a > b`表示 a 中依赖的 b
+      '@loadable/component > hoist-non-react-statics'
+    ],
+    exclude: ['@loadable/component'],
+    esbuildOptions: {
+      plugins: [
+        // 加入 Esbuild 插件
+        esbuildPatchPlugin
+      ]
+    }
   }
 });

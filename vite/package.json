@@ -20,17 +20,25 @@
     "lint": "npm run lint:script && npm run lint:style",
     "lint:script": "eslint --ext .js,.jsx,.ts,.tsx --fix --quiet ./src",
     "lint:style": "stylelint --fix \"src/**/*.{css,scss}\"",
-    "prepare": "cd .. && husky install vite/.husky"
+    "prepare": "cd .. && husky install vite/.husky",
+    "postinstall": "patch-package"
   },
   "dependencies": {
+    "@loadable/component": "^5.15.3",
+    "@types/object-assign": "^4.0.30",
+    "lodash-es": "^4.17.21",
+    "object-assign": "^4.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-virtualized": "9.22.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@emotion/babel-plugin": "^11.11.0",
     "@emotion/react": "^11.11.1",
+    "@milahu/patch-package": "^6.4.14",
+    "@types/lodash-es": "^4.17.8",
     "@types/node": "^20.4.9",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

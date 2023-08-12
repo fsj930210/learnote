@@ -7,6 +7,9 @@ import 'virtual:windi.css';
 // svg组件需要
 import 'virtual:svg-icons-register';
 
+const importModule = (m: any) => import(`./locales/${m}.ts`);
+importModule('zh_CN');
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <App />

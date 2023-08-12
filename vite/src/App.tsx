@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { uniq } from 'lodash-es';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -6,7 +7,8 @@ import Header from './components/Header';
 
 function App() {
   const [count, setCount] = useState(0);
-
+  const a = uniq([1, 2, 3, 4, 5, 1, 3, 4, 3]);
+  console.log(a);
   return (
     <>
       <div>
