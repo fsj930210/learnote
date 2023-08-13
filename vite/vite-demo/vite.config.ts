@@ -23,6 +23,11 @@ import viteImagemin from 'vite-plugin-imagemin';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 
 import { esbuildPatchPlugin } from './build/esbuildPatchPlugin';
+import { virtualModulePlugin } from './build/virtualModulePlugin';
+
+import inspect from 'vite-plugin-inspect';
+
+// import { viteSvgrPlugin } from './build/svgrPlugin';
 // https://vitejs.dev/config/
 
 // 全局 scss 文件的路径
@@ -68,6 +73,7 @@ export default defineConfig({
       // 对某些文件排除检查
       exclude: ['windicss', 'node_modules']
     }),
+    // viteSvgrPlugin({ defaultExport: 'url' }),
     svgr({ include: 'src/**/*.svg' }),
     viteImagemin({
       // 无损压缩配置，无损压缩下图片质量不会变差
@@ -93,7 +99,9 @@ export default defineConfig({
     }),
     createSvgIconsPlugin({
       iconDirs: [path.join(__dirname, 'src/assets/icons')]
-    })
+    }),
+    virtualModulePlugin(),
+    inspect()
   ],
   css: {
     postcss: {
