@@ -27,6 +27,8 @@ import { virtualModulePlugin } from './build/virtualModulePlugin';
 
 import inspect from 'vite-plugin-inspect';
 
+// import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
+
 // import { viteSvgrPlugin } from './build/svgrPlugin';
 // https://vitejs.dev/config/
 
@@ -101,6 +103,7 @@ export default defineConfig({
       iconDirs: [path.join(__dirname, 'src/assets/icons')]
     }),
     virtualModulePlugin(),
+    // chunkSplitPlugin(),
     inspect()
   ],
   css: {
@@ -129,7 +132,30 @@ export default defineConfig({
   // },
   assetsInclude: ['.mp4'],
   build: {
-    assetsInlineLimit: 4 * 1024
+    assetsInlineLimit: 4 * 1024,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // 将 React 相关库打包成单独的 chunk 中
+          'react-vendor': ['react', 'react-dom'],
+          // 将 Lodash 库的代码单独打包
+          lodash: ['lodash-es'],
+          // 将组件库的代码打包
+          library: ['antd', '@arco-design/web-react']
+        }
+        // manualChunks(id) {
+        //   if (id.includes('antd') || id.includes('@arco-design/web-react')) {
+        //     return 'library';
+        //   }
+        //   if (id.includes('lodash')) {
+        //     return 'lodash';
+        //   }
+        //   if (id.includes('react')) {
+        //     return 'react';
+        //   }
+        // }
+      }
+    }
   },
   // 预构建相关的配置
   optimizeDeps: {

@@ -24,12 +24,15 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@arco-design/web-react": "^2.51.2",
     "@loadable/component": "^5.15.3",
     "@types/object-assign": "^4.0.30",
+    "antd": "^5.8.3",
     "lodash-es": "^4.17.21",
     "object-assign": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
     "react-virtualized": "9.22.5"
   },
   "devDependencies": {
@@ -68,6 +71,7 @@
     "stylelint-prettier": "^4.0.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-chunk-split": "^0.4.7",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-imagemin": "^0.6.1",
     "vite-plugin-inspect": "^0.7.37",

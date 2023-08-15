@@ -1,9 +1,22 @@
-import { useState } from 'react';
-import { uniq } from 'lodash-es';
+import { useState, lazy, Suspense } from 'react';
+import lodash, { uniq } from 'lodash-es';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import Header from './components/Header';
+import { Button } from 'antd';
+import 'antd/es/button/style';
+import { BrowserRouter, Routes, Route, Outlet, Link } from 'react-router-dom';
+import { Notification } from '@arco-design/web-react';
+
+let a = 1;
+lodash.debounce(() => {
+  a++;
+  console.log(a);
+  console.log(123);
+});
+
+const DynamicComponent = lazy(() => import('./components/Dynamic'));
 
 function App() {
   const [count, setCount] = useState(0);
@@ -40,6 +53,29 @@ function App() {
       >
         Button
       </button>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Outlet />}>
+            <Route
+              index
+              element={
+                <Link to="/dynamic">
+                  <Button>查看动态 import 的组件</Button>
+                  <Notification />
+                </Link>
+              }
+            />
+            <Route
+              path="dynamic"
+              element={
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DynamicComponent />
+                </Suspense>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
