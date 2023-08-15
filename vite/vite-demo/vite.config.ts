@@ -27,6 +27,8 @@ import { virtualModulePlugin } from './build/virtualModulePlugin';
 
 import inspect from 'vite-plugin-inspect';
 
+import legacy from '@vitejs/plugin-legacy';
+
 // import { chunkSplitPlugin } from 'vite-plugin-chunk-split';
 
 // import { viteSvgrPlugin } from './build/svgrPlugin';
@@ -104,7 +106,11 @@ export default defineConfig({
     }),
     virtualModulePlugin(),
     // chunkSplitPlugin(),
-    inspect()
+    inspect(),
+    legacy({
+      // 设置目标浏览器，browserslist 配置语法
+      targets: ['ie >= 11']
+    })
   ],
   css: {
     postcss: {

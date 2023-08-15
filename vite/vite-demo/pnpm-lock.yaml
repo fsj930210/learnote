@@ -73,6 +73,9 @@ devDependencies:
   '@typescript-eslint/parser':
     specifier: ^6.3.0
     version: 6.3.0(eslint@8.45.0)(typescript@5.0.2)
+  '@vitejs/plugin-legacy':
+    specifier: ^4.1.1
+    version: 4.1.1(terser@5.19.2)(vite@4.4.5)
   '@vitejs/plugin-react':
     specifier: ^4.0.3
     version: 4.0.3(vite@4.4.5)
@@ -141,7 +144,7 @@ devDependencies:
     version: 5.0.2
   vite:
     specifier: ^4.4.5
-    version: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+    version: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
   vite-plugin-chunk-split:
     specifier: ^0.4.7
     version: 0.4.7(vite@4.4.5)
@@ -2212,6 +2215,13 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: true
 
+  /@jridgewell/source-map@0.3.5:
+    resolution: {integrity: sha512-UTYAUj/wviwdsMfzoSJspJxbkH5o1snzwX0//0ENX1u/55kkZZkcTZP6u9bwKGkv+dkk9at4m1Cpt0uY80kcpQ==}
+    dependencies:
+      '@jridgewell/gen-mapping': 0.3.3
+      '@jridgewell/trace-mapping': 0.3.19
+    dev: true
+
   /@jridgewell/sourcemap-codec@1.4.15:
     resolution: {integrity: sha512-eF2rxCRulEKXHTRiDrDy6erMYWqNw4LPdQ8UQA4huuxaQsVeRPFl2oM8oDGxMFhJUWZf9McpLtJasDDZb/Bpeg==}
     dev: true
@@ -2962,6 +2972,26 @@ packages:
       eslint-visitor-keys: 3.4.2
     dev: true
 
+  /@vitejs/plugin-legacy@4.1.1(terser@5.19.2)(vite@4.4.5):
+    resolution: {integrity: sha512-um3gbVouD2Q/g19C0qpDfHwveXDCAHzs8OC3e9g6aXpKoD1H14himgs7wkMnhAynBJy7QqUoZNAXDuqN8zLR2g==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      terser: ^5.4.0
+      vite: ^4.0.0
+    dependencies:
+      '@babel/core': 7.22.10
+      '@babel/preset-env': 7.22.10(@babel/core@7.22.10)
+      browserslist: 4.21.10
+      core-js: 3.32.0
+      magic-string: 0.30.2
+      regenerator-runtime: 0.13.11
+      systemjs: 6.14.1
+      terser: 5.19.2
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@vitejs/plugin-react@4.0.3(vite@4.4.5):
     resolution: {integrity: sha512-pwXDog5nwwvSIzwrvYYmA2Ljcd/ZNlcsSG2Q9CNDBwnsd55UGAyr2doXtB5j+2uymRCnCfExlznzzSFbBRcoCg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -2972,7 +3002,7 @@ packages:
       '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.22.10)
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.22.10)
       react-refresh: 0.14.0
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3581,6 +3611,10 @@ packages:
     resolution: {integrity: sha512-T7zexNBwiiaCOGDg9xNX9PBmjrubblRkENuptryuI64URkXDFum9il/JGL8Lm8wYfAXpredVXXZz7eMHilimiQ==}
     dev: true
 
+  /buffer-from@1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+    dev: true
+
   /buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
     dependencies:
@@ -3982,6 +4016,11 @@ packages:
     resolution: {integrity: sha512-7a9a3D1k4UCVKnLhrgALyFcP7YCsLOQIxPd0dKjf/6GuPcgyiGP70ewWdCGrSK7evyhymi0qO4EqCmSJofDeYw==}
     dependencies:
       browserslist: 4.21.10
+    dev: true
+
+  /core-js@3.32.0:
+    resolution: {integrity: sha512-rd4rYZNlF3WuoYuRIDEmbR/ga9CeuWX9U05umAvgrrZoHY4Z++cp/xwPQMvUpBB4Ag6J8KfD80G0zwCyaSxDww==}
+    requiresBuild: true
     dev: true
 
   /core-util-is@1.0.3:
@@ -8537,6 +8576,10 @@ packages:
     resolution: {integrity: sha512-zrceR/XhGYU/d/opr2EKO7aRHUeiBI8qjtfHqADTwZd6Szfy16la6kqD0MIUs5z5hx6AaKa+PixpPrR289+I0A==}
     dev: true
 
+  /regenerator-runtime@0.13.11:
+    resolution: {integrity: sha512-kY1AZVr2Ra+t+piVaJ4gxaFaReZVH40AKNo7UCX6W+dEwBo/2oZJzqfuN1qLq1oL45o56cPaTXELwrTh8Fpggg==}
+    dev: true
+
   /regenerator-runtime@0.14.0:
     resolution: {integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==}
 
@@ -9014,6 +9057,13 @@ packages:
       resolve-url: 0.2.1
       source-map-url: 0.4.1
       urix: 0.1.0
+    dev: true
+
+  /source-map-support@0.5.21:
+    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
+    dependencies:
+      buffer-from: 1.1.2
+      source-map: 0.6.1
     dev: true
 
   /source-map-url@0.4.1:
@@ -9568,6 +9618,10 @@ packages:
       tslib: 2.6.1
     dev: true
 
+  /systemjs@6.14.1:
+    resolution: {integrity: sha512-8ftwWd+XnQtZ/aGbatrN4QFNGrKJzmbtixW+ODpci7pyoTajg4sonPP8aFLESAcuVxaC1FyDESt+SpfFCH9rZQ==}
+    dev: true
+
   /table@6.8.1:
     resolution: {integrity: sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA==}
     engines: {node: '>=10.0.0'}
@@ -9603,6 +9657,17 @@ packages:
     dependencies:
       temp-dir: 1.0.0
       uuid: 3.4.0
+    dev: true
+
+  /terser@5.19.2:
+    resolution: {integrity: sha512-qC5+dmecKJA4cpYxRa5aVkKehYsQKc+AHeKl0Oe62aYjBL8ZA33tTljktDHJSaxxMnbI5ZYw+o/S2DxxLu8OfA==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      '@jridgewell/source-map': 0.3.5
+      acorn: 8.10.0
+      commander: 2.20.3
+      source-map-support: 0.5.21
     dev: true
 
   /text-extensions@1.9.0:
@@ -10034,7 +10099,7 @@ packages:
     dependencies:
       es-module-lexer: 1.3.0
       magic-string: 0.26.7
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     dev: true
 
   /vite-plugin-eslint@1.8.1(eslint@8.45.0)(vite@4.4.5):
@@ -10047,7 +10112,7 @@ packages:
       '@types/eslint': 8.44.2
       eslint: 8.45.0
       rollup: 2.79.1
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     dev: true
 
   /vite-plugin-imagemin@0.6.1(vite@4.4.5):
@@ -10078,7 +10143,7 @@ packages:
       imagemin-webp: 6.1.0
       jpegtran-bin: 6.0.1
       pathe: 0.2.0
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10100,7 +10165,7 @@ packages:
       open: 9.1.0
       picocolors: 1.0.0
       sirv: 2.0.3
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -10127,7 +10192,7 @@ packages:
       chokidar: 3.5.3
       postcss: 8.4.27
       stylelint: 15.10.2
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     dev: true
 
   /vite-plugin-svg-icons@2.0.1(vite@4.4.5):
@@ -10143,7 +10208,7 @@ packages:
       pathe: 0.2.0
       svg-baker: 1.7.0
       svgo: 2.8.0
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -10156,7 +10221,7 @@ packages:
       '@rollup/pluginutils': 5.0.2
       '@svgr/core': 7.0.0
       '@svgr/plugin-jsx': 7.0.0
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -10170,13 +10235,13 @@ packages:
       '@windicss/plugin-utils': 1.9.0
       debug: 4.3.4
       kolorist: 1.8.0
-      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)
+      vite: 4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2)
       windicss: 3.5.6
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite@4.4.5(@types/node@20.4.9)(sass@1.65.1):
+  /vite@4.4.5(@types/node@20.4.9)(sass@1.65.1)(terser@5.19.2):
     resolution: {integrity: sha512-4m5kEtAWHYr0O1Fu7rZp64CfO1PsRGZlD3TAB32UmQlpd7qg15VF7ROqGN5CyqN7HFuwr7ICNM2+fDWRqFEKaA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -10209,6 +10274,7 @@ packages:
       postcss: 8.4.27
       rollup: 3.28.0
       sass: 1.65.1
+      terser: 5.19.2
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
